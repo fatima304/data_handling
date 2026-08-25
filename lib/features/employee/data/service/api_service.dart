@@ -2,7 +2,6 @@ import 'package:data_handling/core/constants/api_constants.dart';
 import 'package:data_handling/features/employee/data/models/employee_model.dart';
 import 'package:dio/dio.dart';
 
-
 class EmployeeService {
   static const String _employeesUrl =
       ApiConstants.baseUrl + ApiConstants.employeesEndpoint;
@@ -25,9 +24,7 @@ class EmployeeService {
         error.message ?? 'Failed to fetch employees. Please try again.',
       );
     } catch (error) {
-      throw Exception(
-        'Something went wrong. Please try again.',
-      );
+      throw Exception('Something went wrong. Please try again.');
     }
   }
 }

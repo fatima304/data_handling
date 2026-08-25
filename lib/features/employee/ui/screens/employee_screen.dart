@@ -1,5 +1,6 @@
 import 'package:data_handling/features/employee/data/models/employee_model.dart';
 import 'package:data_handling/features/employee/data/service/api_service.dart';
+import 'package:data_handling/features/employee/ui/screens/employee_details_screen.dart';
 import 'package:data_handling/features/employee/ui/widgets/employee_card.dart';
 import 'package:data_handling/features/employee/ui/widgets/employee_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,20 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                       itemBuilder: (context, index) {
                         final employee = _employees[index];
 
-                        return EmployeeCard(employee: employee);
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(16),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EmployeeDetailsScreen(
+                                  employeeModel: employee,
+                                ),
+                              ),
+                            );
+                          },
+                          child: EmployeeCard(employee: employee),
+                        );
                       },
                     ),
             ),
