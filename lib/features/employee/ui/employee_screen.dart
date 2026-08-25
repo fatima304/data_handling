@@ -1,7 +1,7 @@
 import 'package:data_handling/features/employee/data/models/employee_model.dart';
 import 'package:data_handling/features/employee/data/service/api_service.dart';
 import 'package:data_handling/features/employee/ui/widgets/employee_card.dart';
-import 'package:data_handling/features/employee/ui/widgets/empty_state.dart';
+import 'package:data_handling/features/employee/ui/widgets/employee_error_widget.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeScreen extends StatefulWidget {
@@ -13,17 +13,29 @@ class EmployeeScreen extends StatefulWidget {
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
   final EmployeeService _employeeService = EmployeeService();
-
+  // ignore: unused_field
+  String? _errorMessage;
   List<EmployeeModel> _employees = [];
 
-  Future<void> _fetchEmployees() async {
+
+ Future<void> _fetchEmployees() async {
+  try {
     final employees = await _employeeService.fetchEmployees();
+
+    if (!mounted) return;
 
     setState(() {
       _employees = employees;
+      _errorMessage = null;
+    });
+  } catch (error) {
+    if (!mounted) return;
+
+    setState(() {
+      _errorMessage = 'Unable to load employees. Please try again.';
     });
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,19 +89,31 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            Expanded(
-              child: _employees.isEmpty
-                  ? const EmptyState()
-                  : ListView.separated(
-                      itemCount: _employees.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final employee = _employees[index];
-                        return EmployeeCard(employee: employee);
-                      },
-                    ),
+    Expanded(
+  child: _errorMessage != null
+      ? EmployeeErrorView(
+          onRetry: _fetchEmployees,
+        )
+      : _employees.isEmpty
+          ? const Center(
+              child: Text(
+                'No employees loaded yet',
+                style: TextStyle(
+                  color: Color(0xFF64748B),
+                  fontSize: 15,
+                ),
+              ),
+            )
+          : ListView.separated(
+              itemCount: _employees.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final employee = _employees[index];
+
+                return EmployeeCard(employee: employee);
+              },
             ),
-          ],
+)      ],
         ),
       ),
     );
