@@ -22,4 +22,14 @@ class EmployeeModel {
       profileImage: json['profile_image'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'employee_name': name,
+      'employee_salary': salary,
+      'employee_age': age,
+      'profile_image': profileImage,
+    };
+  }
 }

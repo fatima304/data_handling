@@ -1,5 +1,6 @@
 import 'package:data_handling/features/employee/data/models/employee_model.dart';
 import 'package:data_handling/features/employee/data/service/api_service.dart';
+import 'package:data_handling/features/employee/data/service/employee_cache_service.dart';
 import 'package:data_handling/features/employee/ui/screens/employee_details_screen.dart';
 import 'package:data_handling/features/employee/ui/widgets/employee_card.dart';
 import 'package:data_handling/features/employee/ui/widgets/employee_error_widget.dart';
@@ -14,21 +15,39 @@ class EmployeeScreen extends StatefulWidget {
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
   final EmployeeService _employeeService = EmployeeService();
-  // ignore: unused_field
-  String? _errorMessage;
   bool _isLoading = false;
+  bool _hasError = false;
   List<EmployeeModel> _employees = [];
+  final EmployeeCacheService _cacheService = EmployeeCacheService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCachedEmployees();
+  }
+
+  Future<void> _loadCachedEmployees() async {
+    final cachedEmployees = await _cacheService.getCachedEmployees();
+
+    if (!mounted || cachedEmployees.isEmpty) return;
+
+    setState(() {
+      _employees = cachedEmployees;
+    });
+  }
 
   Future<void> _fetchEmployees() async {
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
+      _hasError = false;
     });
 
     try {
       final employees = await _employeeService.fetchEmployees();
 
       if (!mounted) return;
+
+      await _cacheService.saveEmployees(employees);
 
       setState(() {
         _employees = employees;
@@ -39,7 +58,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Unable to load employees. Please try again.';
+        _hasError = true;
       });
     }
   }
@@ -100,7 +119,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _errorMessage != null
+                  : _hasError
                   ? EmployeeErrorView(onRetry: _fetchEmployees)
                   : _employees.isEmpty
                   ? const Center(
