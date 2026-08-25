@@ -15,27 +15,34 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   final EmployeeService _employeeService = EmployeeService();
   // ignore: unused_field
   String? _errorMessage;
+  bool _isLoading = false;
   List<EmployeeModel> _employees = [];
 
-
- Future<void> _fetchEmployees() async {
-  try {
-    final employees = await _employeeService.fetchEmployees();
-
-    if (!mounted) return;
-
+  Future<void> _fetchEmployees() async {
     setState(() {
-      _employees = employees;
+      _isLoading = true;
       _errorMessage = null;
     });
-  } catch (error) {
-    if (!mounted) return;
 
-    setState(() {
-      _errorMessage = 'Unable to load employees. Please try again.';
-    });
+    try {
+      final employees = await _employeeService.fetchEmployees();
+
+      if (!mounted) return;
+
+      setState(() {
+        _employees = employees;
+        _isLoading = false;
+      });
+    } catch (error) {
+      if (!mounted) return;
+
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Unable to load employees. Please try again.';
+      });
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,31 +96,32 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               ),
             ),
             const SizedBox(height: 24),
-    Expanded(
-  child: _errorMessage != null
-      ? EmployeeErrorView(
-          onRetry: _fetchEmployees,
-        )
-      : _employees.isEmpty
-          ? const Center(
-              child: Text(
-                'No employees loaded yet',
-                style: TextStyle(
-                  color: Color(0xFF64748B),
-                  fontSize: 15,
-                ),
-              ),
-            )
-          : ListView.separated(
-              itemCount: _employees.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final employee = _employees[index];
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _errorMessage != null
+                  ? EmployeeErrorView(onRetry: _fetchEmployees)
+                  : _employees.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No employees loaded yet',
+                        style: TextStyle(
+                          color: Color(0xFF64748B),
+                          fontSize: 15,
+                        ),
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: _employees.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final employee = _employees[index];
 
-                return EmployeeCard(employee: employee);
-              },
+                        return EmployeeCard(employee: employee);
+                      },
+                    ),
             ),
-)      ],
+          ],
         ),
       ),
     );
