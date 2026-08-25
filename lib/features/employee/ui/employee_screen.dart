@@ -30,6 +30,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       backgroundColor: const Color(0xFFF5F7FB),
       appBar: AppBar(
         backgroundColor: const Color(0xFF4F46E5),
+        foregroundColor: Colors.white,
         elevation: 0,
         title: const Text(
           'Employee Directory',
