@@ -118,7 +118,11 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             const SizedBox(height: 24),
             Expanded(
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF4F46E5),
+                      ),
+                    )
                   : _hasError
                   ? EmployeeErrorView(onRetry: _fetchEmployees)
                   : _employees.isEmpty

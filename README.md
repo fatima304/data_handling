@@ -1,17 +1,100 @@
-# data_handling
+# Employee Directory App
 
-A new Flutter project.
+A Flutter app that fetches employee data from a REST API, displays it in a list, and allows users to view employee details. The app also handles errors, loading states, and locally cached data.
 
-## Getting Started
+**GitHub Repository:** [https://github.com/fatima304/data_handling]
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+* Fetch employee data from a REST API
+* JSON parsing with an Employee model
+* Employee list with name and salary
+* Employee details screen
+* Navigation with data passing
+* Loading and error states
+* Local caching using SharedPreferences
+* Load cached data after app restart
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Technologies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Flutter & Dart
+* HTTP
+* Dio
+* SharedPreferences
+* REST API
+* JSON
+* Flutter Navigator
+
+## API
+
+**Endpoint:** `https://dummy.restapiexample.com/api/v1/employees`
+
+**Method:** `GET`
+
+## Project Structure
+
+```text
+lib/
+├── main.dart
+├── core/
+│   └── constants/
+│       └── api_constants.dart
+└── features/
+    └── employee/
+        ├── data/
+        │   ├── models/
+        │   │   └── employee_model.dart
+        │   └── service/
+        │       ├── api_service.dart
+        │       └── employee_cache_service.dart
+        └── ui/
+            ├── screens/
+            │   ├── employee_screen.dart
+            │   └── employee_details_screen.dart
+            └── widgets/
+                ├── employee_card.dart
+                └── employee_error_widget.dart
+```
+
+## How to Run
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Screenshots
+
+### Employee List
+
+Shows the fetched employees with their names and salaries.
+
+### Employee Details
+
+Shows the selected employee's name, age, and salary.
+
+### Loading State
+
+Shows the loading indicator while fetching employee data.
+
+### Cached Data
+
+Shows cached employee data loaded after restarting the app.
+
+## Implementation
+
+### Phase 1
+
+* HTTP API request
+* JSON parsing
+* Employee model
+* Employee list
+
+### Phase 2
+
+* Replaced HTTP with Dio
+* Error handling
+* Loading indicator
+* Details screen and navigation
+* SharedPreferences caching
+* Cached data loading on app restart
