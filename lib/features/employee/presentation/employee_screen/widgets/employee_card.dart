@@ -1,3 +1,4 @@
+import 'package:data_handling/core/constants/app_colors.dart';
 import 'package:data_handling/features/employee/data/models/employee_model.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class EmployeeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -25,11 +26,11 @@ class EmployeeCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25,
-            backgroundColor: const Color(0xFFE0E7FF),
+            backgroundColor: AppColors.white,
             child: Text(
-              employee.name[0],
+              employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
               style: const TextStyle(
-                color: Color(0xFF4F46E5),
+                color: AppColors.primaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -51,10 +52,7 @@ class EmployeeCard extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   'Employee #${employee.id}',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF94A3B8),
-                  ),
+                  style: const TextStyle(fontSize: 13, color: AppColors.gray),
                 ),
               ],
             ),
@@ -64,7 +62,7 @@ class EmployeeCard extends StatelessWidget {
             children: [
               const Text(
                 'Salary',
-                style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+                style: TextStyle(fontSize: 12, color: AppColors.gray),
               ),
               const SizedBox(height: 4),
               Text(
@@ -72,7 +70,7 @@ class EmployeeCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF059669),
+                  color: AppColors.green,
                 ),
               ),
             ],

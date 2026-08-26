@@ -1,4 +1,4 @@
-import 'package:data_handling/features/employee/ui/screens/employee_screen.dart';
+import 'package:data_handling/features/employee/presentation/employee_screen/employee_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

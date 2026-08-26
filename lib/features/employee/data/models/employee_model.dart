@@ -15,21 +15,11 @@ class EmployeeModel {
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(
-      id: json['id'],
-      name: json['employee_name'],
-      salary: json['employee_salary'],
-      age: json['employee_age'],
-      profileImage: json['profile_image'],
+      id: json['id'] as int,
+      name: json['employee_name'] as String? ?? 'Unknown',
+      salary: json['employee_salary'] as int? ?? 0,
+      age: json['employee_age'] as int? ?? 0,
+      profileImage: json['profile_image'] as String? ?? '',
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'employee_name': name,
-      'employee_salary': salary,
-      'employee_age': age,
-      'profile_image': profileImage,
-    };
   }
 }

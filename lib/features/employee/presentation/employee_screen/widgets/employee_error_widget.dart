@@ -1,3 +1,4 @@
+import 'package:data_handling/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeErrorView extends StatelessWidget {
@@ -43,7 +44,7 @@ class EmployeeErrorView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 height: 1.5,
-                color: Color(0xFF64748B),
+                color: AppColors.gray,
               ),
             ),
             const SizedBox(height: 24),
@@ -52,8 +53,8 @@ class EmployeeErrorView extends StatelessWidget {
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Try Again'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4F46E5),
-                foregroundColor: Colors.white,
+                backgroundColor: AppColors.primaryColor,
+                foregroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 13,

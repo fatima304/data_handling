@@ -47,13 +47,20 @@ lib/
         │   └── service/
         │       ├── api_service.dart
         │       └── employee_cache_service.dart
-        └── ui/
-            ├── screens/
+        └── presentation/
+            ├── employee_screen/
             │   ├── employee_screen.dart
-            │   └── employee_details_screen.dart
-            └── widgets/
-                ├── employee_card.dart
-                └── employee_error_widget.dart
+            │   └── widgets/
+            │       ├── employee_card.dart
+            │       ├── employee_error_widget.dart
+            │       ├── employee_header.dart
+            │       ├── employee_list_content.dart
+            │       └── load_employees_button.dart
+            └── employee_details_screen/
+                ├── employee_details_screen.dart
+                └── widgets/
+                    ├── employee_avatar.dart
+                    └── employee_info_card.dart
 ```
 
 ## How to Run

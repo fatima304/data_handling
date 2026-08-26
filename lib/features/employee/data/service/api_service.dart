@@ -14,7 +14,12 @@ class EmployeeService {
       final response = await _dio.get(_employeesUrl);
 
       // Parse the JSON response and map it to Employee models.
-      final employees = response.data['data'] as List;
+      final data = response.data['data'];
+      if (data == null) {
+        throw Exception('No data received from the API.');
+      }
+
+      final employees = data as List;
 
       return employees
           .map((employee) => EmployeeModel.fromJson(employee))

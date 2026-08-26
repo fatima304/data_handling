@@ -12,12 +12,20 @@ class EmployeeCacheService {
 
       // Convert employees to JSON before storing them locally.
       final employeesJson = employees
-          .map((employee) => employee.toJson())
+          .map(
+            (employee) => {
+              'id': employee.id,
+              'employee_name': employee.name,
+              'employee_salary': employee.salary,
+              'employee_age': employee.age,
+              'profile_image': employee.profileImage,
+            },
+          )
           .toList();
 
       await preferences.setString(_employeesKey, jsonEncode(employeesJson));
     } catch (error) {
-      // Silently fail on cache errors - don't block the main functionality
+      // Silently fail - caching is optional for the app to function
     }
   }
 
@@ -41,7 +49,6 @@ class EmployeeCacheService {
           )
           .toList();
     } catch (error) {
-      // Return empty list on cache read errors
       return [];
     }
   }
